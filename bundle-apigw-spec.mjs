@@ -19,6 +19,7 @@
  *   S3_BUCKET      — S3 bucket for spec upload (default: tec42-terraform-state)
  *   S3_KEY_PREFIX  — S3 key prefix (default: api-gateway-specs)
  *   DRY_RUN        — If set, write to stdout only (no S3 upload)
+ *   OUTPUT_FILE    — If set, write JSON to this file instead of uploading to S3
  */
 
 import { execFileSync } from 'node:child_process'
@@ -97,6 +98,7 @@ if (isMain) {
   const S3_BUCKET = process.env.S3_BUCKET ?? 'tec42-terraform-state'
   const S3_KEY_PREFIX = process.env.S3_KEY_PREFIX ?? 'api-gateway-specs'
   const DRY_RUN = !!process.env.DRY_RUN
+  const OUTPUT_FILE = process.env.OUTPUT_FILE ?? null
 
   const cwd = process.cwd()
   const specPath = resolve(cwd, OPENAPI_SPEC)
@@ -110,8 +112,7 @@ if (isMain) {
   console.log(`   Spec:       ${specPath}`)
   console.log(`   Prefix:     ${PATH_PREFIX}`)
   console.log(`   NLB target: http://${NLB_DNS}:${NLB_PORT}${SERVICE_API_PREFIX}`)
-  if (DRY_RUN) console.log('   Mode:       DRY RUN (no S3 upload)')
-
+  if (DRY_RUN) console.log('   Mode:       DRY RUN (no S3 upload)')  if (OUTPUT_FILE) console.log(`   Output:     ${OUTPUT_FILE} (no S3 upload)`)
   // Step 1: Bundle OpenAPI spec (resolve all $refs via redocly)
   const tmpBundled = join(tmpdir(), `openapi-bundled-${Date.now()}.json`)
 
@@ -148,6 +149,12 @@ if (isMain) {
     const tmpOut = join(tmpdir(), `openapi-apigw-${SERVICE_NAME}-${Date.now()}.json`)
     writeFileSync(tmpOut, outputJson, 'utf-8')
     console.log(`\n🔍 DRY RUN — written to: ${tmpOut}`)
+    process.exit(0)
+  }
+
+  if (OUTPUT_FILE) {
+    writeFileSync(OUTPUT_FILE, outputJson, 'utf-8')
+    console.log(`\n✅ Written to: ${OUTPUT_FILE}`)
     process.exit(0)
   }
 
