@@ -6,6 +6,9 @@
   "bin": {
     "tec42-bundle-apigw-spec": "./bundle-apigw-spec.mjs"
   },
+  "scripts": {
+    "test": "docker run --rm -v \"$PWD:/workspace\" -w /workspace node:20-alpine node --test bundle-apigw-spec.test.mjs"
+  },
   "engines": {
     "node": ">=20"
   },
