@@ -26,7 +26,6 @@ import { execFileSync } from 'node:child_process'
 import { readFileSync, writeFileSync, unlinkSync, existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
 
 const HTTP_METHODS = ['get', 'post', 'put', 'patch', 'delete', 'head', 'options']
 
@@ -76,9 +75,7 @@ export function buildPrefixedPaths(spec, { pathPrefix, nlbDns, nlbPort, serviceA
 }
 
 // --- CLI entry point ---
-const isMain = process.argv[1] === fileURLToPath(import.meta.url)
-
-if (isMain) {
+{
   // Validate required env vars
   const SERVICE_NAME = process.env.SERVICE_NAME
   const NLB_DNS = process.env.NLB_DNS
