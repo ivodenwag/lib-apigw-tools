@@ -13,13 +13,8 @@
   "engines": {
     "node": ">=20"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@redocly/cli": ">=1.0.0"
-  },
-  "peerDependenciesMeta": {
-    "@redocly/cli": {
-      "optional": true
-    }
   },
   "keywords": [
     "aws",
