@@ -112,7 +112,8 @@ if (isMain) {
   console.log(`   Spec:       ${specPath}`)
   console.log(`   Prefix:     ${PATH_PREFIX}`)
   console.log(`   NLB target: http://${NLB_DNS}:${NLB_PORT}${SERVICE_API_PREFIX}`)
-  if (DRY_RUN) console.log('   Mode:       DRY RUN (no S3 upload)')  if (OUTPUT_FILE) console.log(`   Output:     ${OUTPUT_FILE} (no S3 upload)`)
+  if (DRY_RUN) console.log('   Mode:       DRY RUN (no S3 upload)')
+  if (OUTPUT_FILE) console.log(`   Output:     ${OUTPUT_FILE} (no S3 upload)`)
   // Step 1: Bundle OpenAPI spec (resolve all $refs via redocly)
   const tmpBundled = join(tmpdir(), `openapi-bundled-${Date.now()}.json`)
 
