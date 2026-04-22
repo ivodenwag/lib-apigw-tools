@@ -4,6 +4,7 @@
   "description": "Bundle OpenAPI specs for AWS API Gateway import — shared library for tec42 backend services",
   "type": "module",
   "bin": {
+    "lib-apigw-tools": "./bundle-apigw-spec.mjs",
     "tec42-bundle-apigw-spec": "./bundle-apigw-spec.mjs"
   },
   "scripts": {
