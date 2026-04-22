@@ -25,7 +25,8 @@
 import { execFileSync } from 'node:child_process'
 import { readFileSync, writeFileSync, unlinkSync, existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join, resolve } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const HTTP_METHODS = ['get', 'post', 'put', 'patch', 'delete', 'head', 'options']
 
@@ -116,9 +117,14 @@ export function buildPrefixedPaths(spec, { pathPrefix, nlbDns, nlbPort, serviceA
 
   console.log('\n📦 Bundling $refs...')
 
+  // Check for redocly: 1) in project's node_modules, 2) bundled with this package (via npx), 3) fallback npx
   const redoclyLocal = resolve(cwd, 'node_modules/.bin/redocly')
+  const __pkgDir = dirname(fileURLToPath(import.meta.url))
+  const redoclyBundled = resolve(__pkgDir, '../../.bin/redocly')
   const [redocloBin, redoclyArgs] = existsSync(redoclyLocal)
     ? [redoclyLocal, ['bundle', OPENAPI_SPEC, '-o', tmpBundled]]
+    : existsSync(redoclyBundled)
+    ? [redoclyBundled, ['bundle', OPENAPI_SPEC, '-o', tmpBundled]]
     : ['npx', ['--yes', '@redocly/cli', 'bundle', OPENAPI_SPEC, '-o', tmpBundled]]
 
   execFileSync(redocloBin, redoclyArgs, { cwd, stdio: 'inherit' })
