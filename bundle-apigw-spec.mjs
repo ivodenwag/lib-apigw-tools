@@ -172,7 +172,7 @@ export function buildPrefixedPaths(spec, { pathPrefix, nlbDns, nlbPort, serviceA
   console.log(`\n☁️  Uploading to ${s3Uri}...`)
 
   try {
-    execFileSync('aws', ['s3', 'cp', tmpUpload, s3Uri, '--content-type', 'application/json'], {
+    execFileSync('aws', ['s3', 'cp', tmpUpload, s3Uri, '--content-type', 'application/json', '--sse', 'AES256'], {
       stdio: 'inherit',
     })
     console.log(`✅ Uploaded: ${s3Uri}`)
