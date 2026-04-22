@@ -1,5 +1,5 @@
 {
-  "name": "@tec42/apigw-tools",
+  "name": "@ivodenwag/lib-apigw-tools",
   "version": "1.0.0",
   "description": "Bundle OpenAPI specs for AWS API Gateway import — shared library for tec42 backend services",
   "type": "module",
