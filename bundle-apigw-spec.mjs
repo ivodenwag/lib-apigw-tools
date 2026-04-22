@@ -119,7 +119,7 @@ export function buildPrefixedPaths(spec, { pathPrefix, nlbDns, nlbPort, serviceA
   const redoclyLocal = resolve(cwd, 'node_modules/.bin/redocly')
   const [redocloBin, redoclyArgs] = existsSync(redoclyLocal)
     ? [redoclyLocal, ['bundle', OPENAPI_SPEC, '-o', tmpBundled]]
-    : ['npx', ['@redocly/cli', 'bundle', OPENAPI_SPEC, '-o', tmpBundled]]
+    : ['npx', ['--yes', '@redocly/cli', 'bundle', OPENAPI_SPEC, '-o', tmpBundled]]
 
   execFileSync(redocloBin, redoclyArgs, { cwd, stdio: 'inherit' })
 
