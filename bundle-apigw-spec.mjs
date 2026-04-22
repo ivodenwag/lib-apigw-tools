@@ -132,6 +132,12 @@ export function buildPrefixedPaths(spec, { pathPrefix, nlbDns, nlbPort, serviceA
   const spec = JSON.parse(readFileSync(tmpBundled, 'utf-8'))
   unlinkSync(tmpBundled)
 
+  // AWS API Gateway only supports OpenAPI 3.0.x — downgrade 3.1.x to 3.0.1
+  if (spec.openapi && spec.openapi.startsWith('3.1')) {
+    console.log(`\n⚠️  Downgrading OpenAPI ${spec.openapi} → 3.0.1 (API Gateway requirement)`)
+    spec.openapi = '3.0.1'
+  }
+
   // Step 2: Prefix all paths + add x-amazon-apigateway-integration
   const prefixedPaths = buildPrefixedPaths(spec, {
     pathPrefix: PATH_PREFIX,
